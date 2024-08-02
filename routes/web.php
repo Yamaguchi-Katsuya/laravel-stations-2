@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\PracticeController;
+use App\Http\Controllers\SheetController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,4 +28,8 @@ Route::get('/getPractice', [PracticeController::class, 'getPractice']);
 
 Route::group(['prefix' => 'movies', 'as' => 'movies.'], function () {
     Route::get('/', [MovieController::class, 'index'])->name('index');
+});
+
+Route::group(['prefix' => 'sheets', 'as' => 'sheets.'], function () {
+    Route::get('/', [SheetController::class, 'index'])->name('index');
 });
