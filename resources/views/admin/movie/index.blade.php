@@ -10,6 +10,8 @@
     @if (session('success'))
         <p>{{ session('success') }}</p>
     @endif
+    <h1>映画一覧</h1>
+    <a href="{{ route('admin.movies.create') }}">新規登録</a>
     <table>
         <tr>
             <th>映画タイトル</th>

@@ -10,19 +10,24 @@ class MovieController extends Controller
     public function index()
     {
         $keyword = request('keyword');
-        $is_showing = request('is_showing');
+        $isShowing = request('is_showing');
 
         $movies = Movie::query()
+            ->with('schedules')
             ->when($keyword, function ($query, $keyword) {
                 return $query->where('title', 'like', "%$keyword%")
                     ->orWhere('description', 'like', "%$keyword%");
             })
-            ->when(!is_null($is_showing), function ($query) use ($is_showing) {
-                return $query->where('is_showing', $is_showing);
+            ->when(!is_null($isShowing), function ($query) use ($isShowing) {
+                return $query->where('is_showing', $isShowing);
             })
             ->paginate(20);
 
-        return view('front/movie/index', ['movies' => $movies, 'keyword' => $keyword, 'is_showing' => $is_showing]);
+        return view('front/movie/index', [
+            'movies' => $movies,
+            'keyword' => $keyword,
+            'is_showing' => $isShowing
+        ]);
     }
 
     public function show($id)

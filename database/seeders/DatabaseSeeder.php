@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Movie;
+use App\Models\Screen;
 use App\Practice;
 use Illuminate\Database\Seeder;
 
@@ -17,6 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             SheetTableSeeder::class,
+            ScreenTableSeeder::class,
         ]);
     }
 }

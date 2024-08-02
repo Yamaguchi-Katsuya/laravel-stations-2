@@ -52,6 +52,6 @@ class ReservationController extends Controller
             return back()->withInput()->withErrors(['error' => $e->getMessage()]);
         }
 
-        return redirect()->route('sheets.index');
+        return redirect()->route('movies.index');
     }
 }

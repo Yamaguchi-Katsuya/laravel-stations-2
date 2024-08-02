@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Movie\Schedule\Sheet;
 
 use App\Http\Controllers\Controller;
+use App\Models\Schedule;
 use App\Models\Sheet;
 
 class SheetController extends Controller
@@ -26,6 +27,7 @@ class SheetController extends Controller
             $sheet->is_available = is_null($sheet->reservation_id);
             return $sheet;
         });
-        return view('front/movie/schedule/sheet/index', ['sheets' => $sheets, 'date' => $date, 'movieId' => $movieId, 'scheduleId' => $scheduleId]);
+
+        return view('front/movie/schedule/sheet/index', compact('movieId', 'scheduleId', 'date', 'sheets'));
     }
 }

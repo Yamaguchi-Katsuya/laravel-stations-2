@@ -29,6 +29,19 @@
         <li>映画タイトル: {{ $movie->title }}</li>
         <li>画像URL: {{ $movie->image_url }}</li>
         <li>公開フラグ: {{ $movie->is_showing ? '公開中' : '公開予定' }}</li>
+        <h3>スケジュール一覧</h3>
+        <ul>
+        @foreach ($movie->schedules as $schedule)
+            <li>上映日時: {{ $schedule->start_time }} 〜 {{ $schedule->end_time }}</li>
+            <li>
+                <a href="{{ route('movies.schedules.sheets.index', [
+                    'movieId' => $movie->id,
+                    'scheduleId' => $schedule->id,
+                    'date' => now()->format('Y-m-d')
+                ]) }}">座席予約</a>
+            </li>
+        @endforeach
+        </ul>
     @endforeach
     </ul>
     {{ $movies->appends(['keyword' => $keyword, 'is_showing' => $is_showing])->links() }}

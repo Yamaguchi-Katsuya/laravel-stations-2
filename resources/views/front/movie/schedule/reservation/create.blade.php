@@ -15,11 +15,17 @@
         <input type="hidden" name="date" value="{{ $date }}">
         <div>
             <label for="email">メールアドレス</label>
-            <input type="email" name="email" id="email">
+            <input type="email" name="email" id="email" value="{{ old('email') }}">
+            @error('email')
+                <div>{{ $message }}</div>
+            @enderror
         </div>
         <div>
             <label for="name">名前</label>
-            <input type="text" name="name" id="name">
+            <input type="text" name="name" id="name" value="{{ old('name') }}">
+            @error('name')
+                <div>{{ $message }}</div>
+            @enderror
         </div>
         <button type="submit">登録</button>
     </form>

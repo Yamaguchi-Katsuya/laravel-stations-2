@@ -21,12 +21,17 @@
                     @foreach ($chunk as $sheet)
                         <td>
                             @if ($sheet->is_available)
-                            <a href="{{ route('reservations.create', [
-                                'movieId' => $movieId, 'scheduleId' => $scheduleId, 'sheetId' => $sheet->id, 'date' => $date
-                            ]) }}">
+                                <a href="{{ route('reservations.create', [
+                                    'movieId' => $movieId,
+                                    'scheduleId' => $scheduleId,
+                                    'sheetId' => $sheet->id,
+                                    'date' => $date
+                                ]) }}">
+                                {{ strtoupper($sheet->row) . $sheet->column }}
+                                </a>
+                            @else
+                                <span style="background-color: lightgray">{{ strtoupper($sheet->row) . $sheet->column }}</span>
                             @endif
-                            {{ $sheet->row }}-{{ $sheet->col }}
-                            </a>
                         </td>
                     @endforeach
                 </tr>
