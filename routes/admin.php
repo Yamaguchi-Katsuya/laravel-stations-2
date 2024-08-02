@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\Movie\MovieController;
-use App\Http\Controllers\Admin\Movie\Schedule\Reservation\ReservationController;
 use App\Http\Controllers\Admin\Movie\Schedule\ScheduleController as MovieScheduleController;
+use App\Http\Controllers\Admin\Reservation\ReservationController;
 use App\Http\Controllers\Admin\Schedule\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,3 +38,7 @@ Route::group(['prefix' => 'schedules', 'as' => 'schedules.'], function () {
     Route::patch('/{id}/update', [ScheduleController::class, 'update'])->name('update');
     Route::delete('/{id}/destroy', [ScheduleController::class, 'destroy'])->name('destroy');
 });
+
+Route::resources([
+    'reservations' => ReservationController::class,
+]);

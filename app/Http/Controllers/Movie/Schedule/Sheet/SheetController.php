@@ -13,16 +13,15 @@ class SheetController extends Controller
         if (empty($date)) {
             abort(400);
         }
-        // $sheets = Sheet::all();
-        $sheets = Sheet::leftJoin('reservations', function ($join) use ($scheduleId, $date) {
-            $join->on('sheets.id', '=', 'reservations.sheet_id')
-                ->where('reservations.schedule_id', '=', $scheduleId)
-                ->whereDate('reservations.date', '=', $date);
-        })
+
+        $sheets = Sheet::query()
+            ->leftJoin('reservations', function ($join) use ($scheduleId) {
+                $join->on('sheets.id', '=', 'reservations.sheet_id')
+                    ->where('reservations.schedule_id', '=', $scheduleId);
+            })
             ->select('sheets.*', 'reservations.id as reservation_id')
             ->get();
 
-        // 予約可能かどうかのフラグを追加
         $sheets = $sheets->map(function ($sheet) {
             $sheet->is_available = is_null($sheet->reservation_id);
             return $sheet;
