@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Movie;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateMovieRequest;
@@ -36,6 +36,12 @@ class MovieController extends Controller
         });
 
         return redirect(route('admin.movies.index'));
+    }
+
+    public function show($id)
+    {
+        $movie = Movie::findOrFail($id);
+        return view('admin/movie/show', ['movie' => $movie]);
     }
 
     public function edit($id)

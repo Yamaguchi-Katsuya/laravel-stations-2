@@ -24,4 +24,11 @@ class MovieController extends Controller
 
         return view('front/movie/index', ['movies' => $movies, 'keyword' => $keyword, 'is_showing' => $is_showing]);
     }
+
+    public function show($id)
+    {
+        $movie = Movie::with('schedules')->findOrFail($id);
+
+        return view('front/movie/show', ['movie' => $movie]);
+    }
 }

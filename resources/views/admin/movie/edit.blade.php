@@ -51,5 +51,13 @@
         </div>
         <button type="submit">登録</button>
     </form>
+
+    {{-- スケジュール一覧 --}}
+    <h2>スケジュール一覧</h2>
+    @foreach ($movie->schedules as $schedule)
+        <p>
+            <a href="{{ route('admin.schedules.edit', ['id' => $schedule->id]) }}">{{ $schedule->start_time }} ~ {{ $schedule->end_time }}</a>
+        </p>
+    @endforeach
 </body>
 </html>

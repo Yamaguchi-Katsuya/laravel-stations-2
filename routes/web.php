@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Movie\Schedule\Reservation\ReservationController;
+use App\Http\Controllers\Movie\Schedule\Sheet\SheetController as MovieScheduleSheetController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\PracticeController;
 use App\Http\Controllers\SheetController;
@@ -28,8 +30,19 @@ Route::get('/getPractice', [PracticeController::class, 'getPractice']);
 
 Route::group(['prefix' => 'movies', 'as' => 'movies.'], function () {
     Route::get('/', [MovieController::class, 'index'])->name('index');
+    Route::get('/{id}', [MovieController::class, 'show'])->name('show');
 });
 
 Route::group(['prefix' => 'sheets', 'as' => 'sheets.'], function () {
     Route::get('/', [SheetController::class, 'index'])->name('index');
 });
+
+Route::group(['prefix' => 'movies/{movieId}/schedules/{scheduleId}/sheets', 'as' => 'movies.schedules.sheets.'], function () {
+    Route::get('/', [MovieScheduleSheetController::class, 'index'])->name('index');
+});
+
+Route::group(['prefix' => 'movies/{movieId}/schedules/{scheduleId}/reservations', 'as' => 'reservations.'], function () {
+    Route::get('/create', [ReservationController::class, 'create'])->name('create');
+});
+
+Route::post('/reservations/store', [ReservationController::class, 'store'])->name('reservations.store');
