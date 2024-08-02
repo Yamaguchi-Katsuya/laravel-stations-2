@@ -33,4 +33,12 @@ class UpdateMovieRequest extends FormRequest
             'genre' => ['required'],
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge(['id' => $this->route('id')]);
+        if (!$this->has('is_showing')) {
+            $this->merge(['is_showing' => (bool) $this->is_showing]);
+        }
+    }
 }

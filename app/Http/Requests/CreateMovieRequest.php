@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class CreateMovieRequest extends FormRequest
 {
@@ -31,5 +32,12 @@ class CreateMovieRequest extends FormRequest
             'is_showing' => ['required', 'boolean'],
             'genre' => ['required'],
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        if (!$this->has('is_showing')) {
+            $this->merge(['is_showing' => (bool) $this->is_showing]);
+        }
     }
 }

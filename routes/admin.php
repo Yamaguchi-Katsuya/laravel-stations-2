@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\MovieController;
-use App\Http\Controllers\PracticeController;
+use App\Http\Controllers\Admin\MovieController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,16 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/practice', [PracticeController::class, 'sample']);
-Route::get('/practice2', [PracticeController::class, 'sample2']);
-Route::get('/practice3', [PracticeController::class, 'sample3']);
-
-Route::get('/getPractice', [PracticeController::class, 'getPractice']);
-
 Route::group(['prefix' => 'movies', 'as' => 'movies.'], function () {
     Route::get('/', [MovieController::class, 'index'])->name('index');
+    Route::get('/create', [MovieController::class, 'create'])->name('create');
+    Route::post('/store', [MovieController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [MovieController::class, 'edit'])->name('edit');
+    Route::patch('/{id}/update', [MovieController::class, 'update'])->name('update');
+    Route::delete('/{id}/destroy', [MovieController::class, 'destroy'])->name('destroy');
 });
