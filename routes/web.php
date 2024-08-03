@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Movie\Schedule\Reservation\ReservationController;
 use App\Http\Controllers\Movie\Schedule\Sheet\SheetController as MovieScheduleSheetController;
 use App\Http\Controllers\MovieController;
-use App\Http\Controllers\PracticeController;
 use App\Http\Controllers\SheetController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,11 +22,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/practice', [PracticeController::class, 'sample']);
-Route::get('/practice2', [PracticeController::class, 'sample2']);
-Route::get('/practice3', [PracticeController::class, 'sample3']);
+Route::middleware('guest')->group(function () {
+    Route::get('users/create', function () {
+        return view('front.user.create');
+    })->name('users.create');
 
-Route::get('/getPractice', [PracticeController::class, 'getPractice']);
+    // login
+    Route::get('login', function () {
+        return view('front.user.login');
+    })->name('login');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 Route::group(['prefix' => 'movies', 'as' => 'movies.'], function () {
     Route::get('/', [MovieController::class, 'index'])->name('index');
@@ -41,8 +50,16 @@ Route::group(['prefix' => 'movies/{movieId}/schedules/{scheduleId}/sheets', 'as'
     Route::get('/', [MovieScheduleSheetController::class, 'index'])->name('index');
 });
 
-Route::group(['prefix' => 'movies/{movieId}/schedules/{scheduleId}/reservations', 'as' => 'reservations.'], function () {
-    Route::get('/create', [ReservationController::class, 'create'])->name('create');
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['prefix' => 'movies/{movieId}/schedules/{scheduleId}/sheets', 'as' => 'movies.schedules.sheets.'], function () {
+        Route::get('/{sheetId}/reserve', [MovieScheduleSheetController::class, 'reserve'])->name('reserve');
+    });
+
+    Route::group(['prefix' => 'movies/{movieId}/schedules/{scheduleId}/reservations', 'as' => 'reservations.'], function () {
+        Route::get('/create', [ReservationController::class, 'create'])->name('create');
+    });
+
+    Route::post('/reservations/store', [ReservationController::class, 'store'])->name('reservations.store');
 });
 
-Route::post('/reservations/store', [ReservationController::class, 'store'])->name('reservations.store');
+require __DIR__ . '/auth.php';

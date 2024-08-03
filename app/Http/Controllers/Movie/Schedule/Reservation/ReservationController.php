@@ -47,7 +47,7 @@ class ReservationController extends Controller
                 abort(400);
             }
 
-            Reservation::create($validated);
+            $request->user()->reservations()->create($validated);
         } catch (\Exception $e) {
             return back()->withInput()->withErrors(['error' => $e->getMessage()]);
         }

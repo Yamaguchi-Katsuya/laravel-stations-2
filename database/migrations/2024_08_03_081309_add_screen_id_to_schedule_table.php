@@ -26,6 +26,7 @@ class AddScreenIdToScheduleTable extends Migration
     public function down()
     {
         Schema::table('schedules', function (Blueprint $table) {
+            $table->dropForeign(['screen_id']);
             $table->dropColumn('screen_id');
         });
     }
