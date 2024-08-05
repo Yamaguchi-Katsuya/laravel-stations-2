@@ -27,7 +27,6 @@ Route::middleware('guest')->group(function () {
         return view('front.user.create');
     })->name('users.create');
 
-    // login
     Route::get('login', function () {
         return view('front.user.login');
     })->name('login');
@@ -51,6 +50,11 @@ Route::group(['prefix' => 'movies/{movieId}/schedules/{scheduleId}/sheets', 'as'
 });
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('logout', function () {
+        auth()->logout();
+        return redirect()->route('login');
+    })->name('logout');
+
     Route::group(['prefix' => 'movies/{movieId}/schedules/{scheduleId}/sheets', 'as' => 'movies.schedules.sheets.'], function () {
         Route::get('/{sheetId}/reserve', [MovieScheduleSheetController::class, 'reserve'])->name('reserve');
     });
